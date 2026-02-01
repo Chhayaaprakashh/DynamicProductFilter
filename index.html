@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Product Filter</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .filter {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .card.hide {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Dynamic Product Filter</h2>
+
+  <div class="filter">
+    <select id="categoryFilter">
+      <option value="All">All</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Fashion">Fashion</option>
+      <option value="Education">Education</option>
+    </select>
+  </div>
+
+  <div class="grid" id="productGrid">
+
+    <div class="card" data-category="Electronics">
+      <h3>Laptop</h3>
+      <p>Category: Electronics</p>
+      <p class="price">₹55,000</p>
+    </div>
+
+    <div class="card" data-category="Electronics">
+      <h3>Headphones</h3>
+      <p>Category: Electronics</p>
+      <p class="price">₹2,000</p>
+    </div>
+
+    <div class="card" data-category="Fashion">
+      <h3>Shoes</h3>
+      <p>Category: Fashion</p>
+      <p class="price">₹3,000</p>
+    </div>
+
+    <div class="card" data-category="Fashion">
+      <h3>T-Shirt</h3>
+      <p>Category: Fashion</p>
+      <p class="price">₹1,200</p>
+    </div>
+
+    <div class="card" data-category="Education">
+      <h3>Book</h3>
+      <p>Category: Education</p>
+      <p class="price">₹500</p>
+    </div>
+
+  </div>
+
+  <script>
+  const filter = document.getElementById("categoryFilter");
+  const grid = document.getElementById("productGrid");
+  const cards = Array.from(document.querySelectorAll(".card"));
+
+  filter.addEventListener("change", () => {
+    const selected = filter.value;
+
+   
+    grid.innerHTML = "";
+
+    
+    cards.forEach(card => {
+      const category = card.getAttribute("data-category");
+
+      if (selected === "All" || category === selected) {
+        card.classList.remove("hide");
+        grid.appendChild(card);
+      }
+    });
+
+   
+    cards.forEach(card => {
+      const category = card.getAttribute("data-category");
+
+      if (selected !== "All" && category !== selected) {
+        card.classList.add("hide");
+        grid.appendChild(card);
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>
